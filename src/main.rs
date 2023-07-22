@@ -9,13 +9,10 @@ fn main() {
     let mut points :Vec<Vector2> = vec![];
     rl.set_target_fps(60);
     
-    // rl.load_font_data(data, font_size, chars, sdf);
-    // let font = rl.load_font(&thread, "assets/Ubuntu.ttf").unwrap();
     let font = rl.load_font_ex(&thread, "assets/Ubuntu.ttf", 32, FontLoadEx::Default(0)).unwrap();
     rl.gui_set_font(&font);
     rl.gui_set_style(GuiControl::TEXTBOX, 16, 50);
     while !rl.window_should_close() {
-        // unsafe{ffi::LoadFontEx("assets/Ubuntu.tff", 12, 0, 0)};
         let mut d:RaylibDrawHandle = rl.begin_drawing(&thread);
         
         let mouse_pos:Vector2 = d.get_mouse_position();
