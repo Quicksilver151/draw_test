@@ -6,12 +6,13 @@ fn main() {
         .size(640, 480)
         .title("Hello, World")
         .build();
-    let mut points :Vec<Vector2> = vec![];
     rl.set_target_fps(60);
-    
     let font = rl.load_font_ex(&thread, "assets/Ubuntu.ttf", 32, FontLoadEx::Default(0)).unwrap();
-    rl.gui_set_font(&font);
-    rl.gui_set_style(GuiControl::TEXTBOX, 16, 50);
+    
+    
+    let mut points :Vec<Vector2> = vec![];
+    let mut rect_pos:Vector2 = Vector2::default();
+    
     while !rl.window_should_close() {
         let mut d:RaylibDrawHandle = rl.begin_drawing(&thread);
         
@@ -33,7 +34,9 @@ fn main() {
         draw_poly_line(&mut d, &points);
         move_poly_line(&mut points);
         d.draw_text_ex(&font, "Coooool line drawer 500000.1", Vector2{x:32.0,y:32.0}, 32.0, 0.0, Color::BLACK);
-        d.draw_rectangle_v(Vector2{x:10.0,y:20.0}, mouse_pos, Color::GREEN);
+        rect_pos.x += x as f32;
+        rect_pos.y += y as f32;
+        d.draw_rectangle_v(rect_pos, mouse_pos, Color::GREEN);
         d.draw_circle(mouse_pos.x as i32, mouse_pos.y as i32, 10.0, raylib::prelude::color::rcolor(100,100,100,200));
         d.draw_text("Coooool line drawer 500000.1", 12, 12, 20, Color::BLACK);
         

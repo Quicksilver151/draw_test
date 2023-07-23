@@ -8,6 +8,11 @@ edition = "2021"
 [dependencies]
 raylib = "3.7.0"
 
+[profile.release]
+strip = true
+
+[profile.dev]
+strip = true
 
 # [dependencies.raylib]
 # version = "4.5.0"
