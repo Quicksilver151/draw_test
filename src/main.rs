@@ -1,6 +1,7 @@
 use raylib::prelude::*;
 
 
+
 fn main() {
     let (mut rl, thread) = raylib::init()
         .size(640, 480)
@@ -16,9 +17,11 @@ fn main() {
     while !rl.window_should_close() {
         let mut d:RaylibDrawHandle = rl.begin_drawing(&thread);
         
+        let speed = 1 + d.is_key_down(KeyboardKey::KEY_SPACE) as i32;
+        
         let mouse_pos:Vector2 = d.get_mouse_position();
-        let x = d.is_key_down(KeyboardKey::KEY_RIGHT) as i32 - d.is_key_down(KeyboardKey::KEY_LEFT) as i32;
-        let y = d.is_key_down(KeyboardKey::KEY_DOWN) as i32 - d.is_key_down(KeyboardKey::KEY_UP) as i32;
+        let x = (d.is_key_down(KeyboardKey::KEY_RIGHT)|| d.is_key_down(KeyboardKey::KEY_D)) as i32 - (d.is_key_down(KeyboardKey::KEY_LEFT)|| d.is_key_down(KeyboardKey::KEY_A)) as i32;
+        let y = (d.is_key_down(KeyboardKey::KEY_DOWN) || d.is_key_down(KeyboardKey::KEY_S)) as i32 - (d.is_key_down(KeyboardKey::KEY_UP  )|| d.is_key_down(KeyboardKey::KEY_W)) as i32;
         
         if d.is_mouse_button_pressed(MouseButton::MOUSE_LEFT_BUTTON) {
             points.append(&mut vec![d.get_mouse_position()]);
@@ -34,9 +37,9 @@ fn main() {
         draw_poly_line(&mut d, &points);
         move_poly_line(&mut points);
         d.draw_text_ex(&font, "Coooool line drawer 500000.1", Vector2{x:32.0,y:32.0}, 32.0, 0.0, Color::BLACK);
-        rect_pos.x += x as f32;
-        rect_pos.y += y as f32;
-        d.draw_rectangle_v(rect_pos, mouse_pos, Color::GREEN);
+        rect_pos.x += (x * speed) as f32;
+        rect_pos.y += (y * speed) as f32;
+        d.draw_rectangle_v(rect_pos, Vector2{x:16.0, y:16.0}, Color::GREEN);
         d.draw_circle(mouse_pos.x as i32, mouse_pos.y as i32, 10.0, raylib::prelude::color::rcolor(100,100,100,200));
         d.draw_text("Coooool line drawer 500000.1", 12, 12, 20, Color::BLACK);
         
